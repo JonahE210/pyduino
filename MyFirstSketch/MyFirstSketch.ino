@@ -10,6 +10,8 @@ void loop() {
 
   if(Serial.available() > 0){
 
+    Serial.println("This is sample data from arduino.");
+
     String sq = Serial.readString();
 
     if(sq == "ON"){
