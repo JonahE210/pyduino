@@ -55,7 +55,7 @@ def main() -> Optional[None]:
     arduino_cli = MultiprocessingArduinoCLI()
 
     while True:
-        print("\nAvailable Commands: board_list | compile | upload | ON | OFF | BLINK 500 | TOGGLE | STATUS | HEARTBEAT | q (quit)")
+        print("\nAvailable Commands: board_list | compile | upload | q (quit)")
         order = input("Arduino Command: ").strip().upper()
 
         if order == "Q":
