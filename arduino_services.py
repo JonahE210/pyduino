@@ -1,17 +1,21 @@
-import serial.tools.list_ports
-import platform
-from arduino_mp import MultiprocessingArduinoCLI  # Keep your current import
+import serial.tools.list_ports, platform
+from arduino_mp import MultiprocessingArduinoCLI
 from typing import Optional
+from fastapi import FastAPI
+
+app = FastAPI()
 
 def get_os() -> str:
     """Detects the current operating system."""
     return platform.system()
 
 # Moved this block of code into a function for the purpose of multiprocessing
+
 def list_ports():
     """Lists available serial ports."""
     ports = serial.tools.list_ports.comports()
-    ports_list = [str(port) for port in ports]
+    # changed str(port) -> str(port.device)
+    ports_list = [str(port.device) for port in ports]
 
     for port in ports_list:
         print(port)
@@ -74,7 +78,6 @@ def main() -> Optional[None]:
 
             task = {"type": "serial", "port": portIndex, "command": order}
 
-        # Execute command
         stdout, stderr = arduino_cli.run_arduino_task(task)
 
         print(f"\nArduino CLI Output:\n{stdout}")

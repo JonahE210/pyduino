@@ -1,7 +1,6 @@
 import multiprocessing
 import subprocess
-import time
-
+import json
 class MultiprocessingArduinoCLI:
     def __init__(self):
         """Initialize multiprocessing and subprocess management."""
@@ -60,7 +59,9 @@ class MultiprocessingArduinoCLI:
 
         # create queue for results
         results_queue = multiprocessing.Queue()
-        # using this instead of Manager (native to multiprocessing)
+        # using this instead of Manager.queue since manager is
+        # doesn't like working properly
+        # (native to multiprocessing)
         def worker(task):
             stdout, stderr = self.run_arduino_task(task)
             results_queue.put((stdout, stderr))
@@ -88,25 +89,7 @@ class MultiprocessingArduinoCLI:
             self.process.wait()
             print("Subprocess terminated.")
 
-# test usage
-# this crap doesn't work due to pickling issues
-# trying to debug currently so just ignore this for now
 
-# if __name__ == "__main__":
-#     arduino_cli = MultiprocessingArduinoCLI()
-#
-#     # Define tasks
-#     tasks = [
-#         {"type": "board_list"},
-#         {"type": "compile", "fqbn": "arduino:avr:uno", "sketch": "./Blink"},
-#         {"type": "upload", "port": "/dev/ttyUSB0", "fqbn": "arduino:avr:uno", "sketch": "./Blink"},
-#     ]
-#
-#     results = arduino_cli.run_tasks_parallel(tasks)
-#
-#     for i, (stdout, stderr) in enumerate(results):
-#         print(f"Task {i+1} Output:\n{stdout}")
-#         if stderr:
-#             print(f"Task {i+1} Error:\n{stderr}")
-#
-#     arduino_cli.terminate_subprocess()
+    def send_data(self, data, tags, *args, **kwargs):
+        pass
+
