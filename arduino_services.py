@@ -75,7 +75,6 @@ def main() -> Optional[None]:
             sketch = input("Enter sketch path: ").strip()
             task = {"type": "upload", "port": portIndex, "fqbn": fqbn, "sketch": sketch}
         else:
-
             task = {"type": "serial", "port": portIndex, "command": order}
 
         stdout, stderr = arduino_cli.run_arduino_task(task)
